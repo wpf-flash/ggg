@@ -4,7 +4,7 @@ gcc: main.c top.c read.c
 
 clang: main.c top.c read.c
 	clang --target=riscv64-unknown-elf -O2 -march=rv64gcv1p0 -menable-experimental-extensions -mllvm --riscv-v-vector-bits-min=256 --gcc-toolchain=$(RISCV) main.c top.c read.c -lm -o main
-	spike --isa=rv64gcv --varch="vlen:4096,elen:64,slen:4096" pk main
+	spike --isa=rv64gcv --varch="vlen:4096,elen:64" pk main
 
 llvm-objdump: main
 	llvm-objdump --mattr=+v -S main > main.dump

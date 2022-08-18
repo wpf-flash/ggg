@@ -1,0 +1,14 @@
+# Copyright 2021 ETH Zurich and University of Bologna.
+# Solderpad Hardware License, Version 0.51, see LICENSE for details.
+# SPDX-License-Identifier: SHL-0.51
+#
+# Author: Matheus Cavalcante <matheusd@iis.ee.ethz.ch>
+#         Basile Bougenot <bbougenot@student.ethz.ch>
+
+locate_sc_tests = main
+                
+
+
+locate_p_tests = $(addprefix locate-p-, $(locate_sc_tests))
+
+spike_ctests += $(locate_p_tests)

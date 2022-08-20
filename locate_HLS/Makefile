@@ -1,5 +1,5 @@
 gcc: main.c top.c read.c 
-	riscv64-unknown-elf-gcc  main.c top.c read.c -lm -o main
+	riscv64-unknown-elf-gcc -march=rv64gcv main.c top.c read.c -lm -o main
 	spike pk main
 
 clang: main.c top.c read.c

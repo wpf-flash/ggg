@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "top.h"
-#include "read.h"
 #include "test_data.h"
 #define N 5
 // const data_type data[72][3][3] = {

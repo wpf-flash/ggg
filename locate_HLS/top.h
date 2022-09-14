@@ -1,4 +1,4 @@
- #ifndef __TOP_H_
+#ifndef __TOP_H_
 #define __TOP_H_
 
 // #include <ap_cint.h>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
+  <source>
+    <originFiles name="paragrams.h" path="E:\Vivado_project\locate_HLS\paragrams.h"/>
+    <originFiles name="top.c" path="E:\Vivado_project\locate_HLS\top.c"/>
+    <originFiles name="top.h" path="E:\Vivado_project\locate_HLS\top.h"/>
+  </source>
+  <testbench>
+    <originFiles name="main.c" path="E:\Vivado_project\locate_HLS\main.c"/>
+  </testbench>
+</autopilotfilemapping:AutoPilotFileMapping>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vivadoHLSLog:LogRoot xmlns:vivadoHLSLog="www.xilinx.com/vivadoHLSLog">
+  <errorLogs>
+    <logs>
+      <csimLog>
+        <logs message="ERROR: [SIM 211-100] 'csim_design' failed: compilation error(s)." projectName="locate_HLS" solutionName="solution1" date="2022-08-07T11:13:45.127+0800"/>
+        <logs message="ERROR: [APCC 202-1] APCC failed.&#xD;&#xA;g++.exe: error: obj/top.o: No such file or directory&#xD;&#xA;make: *** [csim.exe] Error 1" projectName="locate_HLS" solutionName="solution1" date="2022-08-07T11:13:45.110+0800"/>
+        <logs message="ERROR: [APCC 202-1] ProcessSources failed" projectName="locate_HLS" solutionName="solution1" date="2022-08-07T11:13:45.086+0800"/>
+        <logs message="ERROR: [APCC 202-10] clang compile failed: child process exited abnormally" projectName="locate_HLS" solutionName="solution1" date="2022-08-07T11:13:45.070+0800"/>
+        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="locate_HLS" solutionName="solution1" date="2022-08-03T15:42:03.499+0800"/>
+        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="locate_HLS" solutionName="solution1" date="2022-08-03T15:33:02.638+0800"/>
+        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="locate_HLS" solutionName="solution1" date="2022-08-03T15:31:09.429+0800"/>
+        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="locate_HLS" solutionName="solution1" date="2022-08-03T15:29:20.551+0800"/>
+      </csimLog>
+    </logs>
+  </errorLogs>
+  <warningLogs>
+    <logs>
+      <csimLog/>
+    </logs>
+  </warningLogs>
+</vivadoHLSLog:LogRoot>

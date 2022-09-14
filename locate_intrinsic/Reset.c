@@ -48,8 +48,8 @@ void Reset()
             vfloat32m1_t vec_c = vfmv_v_f_f32m1(0, vl);
             vfloat32m1_t vec_acc_lf= vfmv_v_f_f32m1(0, vl);
 
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
-            vse32_v_f32m1(*ptr_acc_lf, vec_acc_lf, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_acc_lf, vec_acc_lf, vl);
         }
     } 
     for (int i = 0; i < 3; i++)
@@ -62,7 +62,7 @@ void Reset()
 
             vfloat32m1_t vec_gyr_lf = vfmv_v_f_f32m1(0, vl);
 
-            vse32_v_f32m1(*ptr_gyr_lf, vec_gyr_lf, vl);
+            vse32_v_f32m1(ptr_gyr_lf, vec_gyr_lf, vl);
         }
     }
     gyr_lf_count=0;
@@ -82,9 +82,9 @@ void Reset()
         vfloat32m1_t vec_v_last = vfmv_v_f_f32m1(0, vl);
         vfloat32m1_t vec_pos_last = vfmv_v_f_f32m1(0, vl);
 
-        vse32_v_f32m1(*ptr_a_last, vec_a_last, vl);
-        vse32_v_f32m1(*ptr_v_last, vec_v_last, vl);
-        vse32_v_f32m1(*ptr_pos_last, vec_pos_last, vl);
+        vse32_v_f32m1(ptr_a_last, vec_a_last, vl);
+        vse32_v_f32m1(ptr_v_last, vec_v_last, vl);
+        vse32_v_f32m1(ptr_pos_last, vec_pos_last, vl);
 	}
     a_last[2]=g;
     for (int i = 0; i < 9; i++)
@@ -97,7 +97,7 @@ void Reset()
 
             vfloat32m1_t vec_P = vfmv_v_f_f32m1(0, vl);
             
-            vse32_v_f32m1(*ptr_P, vec_P, vl);
+            vse32_v_f32m1(ptr_P, vec_P, vl);
         }
     } 
 }

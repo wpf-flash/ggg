@@ -22,7 +22,7 @@ void MatrixTra99(data_type a[9][9],data_type b[9][9])///a[x][y], b[y][x]
             vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
 
             vfloat32m1_t vec_b = vmv_v_v_f32m1(vec_a, vl);
-            vse32_v_f32m1(*ptr_b, vec_b, vl);
+            vse32_v_f32m1(ptr_b, vec_b, vl);
         }
     }
 }

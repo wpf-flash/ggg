@@ -31,12 +31,12 @@ void MatrixAdd33(data_type A[3][3], data_type B[3][3], data_type C[3][3])///A[x]
             vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
             vec_c = vfadd_vv_f32m1(vec_a, vec_b, vl);
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
         }
     }   
 }
 
-///////////另一种二阶数组intrinsic函数??????
+///////////另一种二阶数组intrinsic函数, 也是可以用的，但是是把二维矩阵展开为一维，然后顺序运算!!!!!!!!
 void MatrixAdd33(data_type A[3][3], data_type B[3][3], data_type C[3][3])///A[x][y],B[x][y]
 {
     size_t vlmax = vsetvlmax_e32m1();
@@ -53,7 +53,7 @@ void MatrixAdd33(data_type A[3][3], data_type B[3][3], data_type C[3][3])///A[x]
             vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
             vec_c = vfadd_vv_f32m1(vec_a, vec_b, vl);
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
         } 
 }
 

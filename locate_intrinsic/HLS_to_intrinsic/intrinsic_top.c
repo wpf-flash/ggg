@@ -5,7 +5,7 @@
 #include <riscv_vector.h>
 
 ///////////////////////////////////////Sub Function//////////////////////////////////////////////
-void MatrixMul33_3(data_type a[3][3], data_type b[3], data_type res[3])//a[x][z], b[z][y]
+void MatrixMul33_3(data_type a[3][3], data_type b[3], data_type res[3]);//a[x][z], b[z][y]
 
 void MatrixMul33_33(data_type a[3][3],data_type b[3][3],data_type res[3][3]);
 void MatrixMul55_55(data_type a[5][5],data_type b[5][5],data_type res[5][5]);
@@ -34,7 +34,7 @@ void MatrixLiner3(data_type A[3][3],data_type k,data_type res[3][3]);
 void MatrixTra99(data_type a[9][9],data_type b[9][9]);
 void MatrixTra59(data_type a[5][9],data_type b[9][5]);
 
-void MatrixEqu3(data_type a[3], data_type b[3])//A[x][y], B[x][y]
+void MatrixEqu3(data_type a[3], data_type b[3]);//A[x][y], B[x][y]
 void MatrixEqu33(data_type a[3][3],data_type b[3][3]);
 void MatrixEqu99(data_type a[9][9],data_type b[9][9]);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -197,7 +197,7 @@ void Locate(struct imu_data imu_in,struct imu_data* imu_out,
 				//a[0]=C[0][0]*acc[0]+C[0][1]*acc[1]+C[0][2]*acc[2];
 				//a[1]=C[1][0]*acc[0]+C[1][1]*acc[1]+C[1][2]*acc[2];
 				//a[2]=C[2][0]*acc[0]+C[2][1]*acc[1]+C[2][2]*acc[2];
-				MatrixMul33_3(C, acc, a)//a[x][z], b[z][y]
+				MatrixMul33_3(C, acc, a);//a[x][z], b[z][y]
 
 				v[0]=v_last[0]+(a[0]+a_last[0])*half_ts;
 				v[1]=v_last[1]+(a[1]+a_last[1])*half_ts;
@@ -273,17 +273,17 @@ void Locate(struct imu_data imu_in,struct imu_data* imu_out,
 				//pos_last[0]=pos[0];
 				//pos_last[1]=pos[1];
 				//pos_last[2]=pos[2];
-				MatrixEqu3(pos[3], pos_last[3])//A[x][y], B[x][y]
+				MatrixEqu3(pos, pos_last);//A[x][y], B[x][y]
 
 				//v_last[0]=v[0];
 				//v_last[1]=v[1];
 				//v_last[2]=v[2];
-				MatrixEqu3(v[3], v_last[3])//A[x][y], B[x][y]
+				MatrixEqu3(v, v_last);//A[x][y], B[x][y]
 
 				//a_last[0]=a[0];
 				//a_last[1]=a[1];
 				//a_last[2]=a[2];
-				MatrixEqu3(a[3], a_last[3])//A[x][y], B[x][y]
+				MatrixEqu3(a, a_last);//A[x][y], B[x][y]
 
 				pos_out->posx=pos[0];
 				pos_out->posy=pos[1];
@@ -315,8 +315,8 @@ void Reset()
             vfloat32m1_t vec_c = vfmv_v_f_f32m1(0, vl);
             vfloat32m1_t vec_acc_lf= vfmv_v_f_f32m1(0, vl);
 
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
-            vse32_v_f32m1(*ptr_acc_lf, vec_acc_lf, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_acc_lf, vec_acc_lf, vl);
         }
     } 
     for (int i = 0; i < 3; i++)
@@ -329,7 +329,7 @@ void Reset()
 
             vfloat32m1_t vec_gyr_lf = vfmv_v_f_f32m1(0, vl);
 
-            vse32_v_f32m1(*ptr_gyr_lf, vec_gyr_lf, vl);
+            vse32_v_f32m1(ptr_gyr_lf, vec_gyr_lf, vl);
         }
     }
     gyr_lf_count=0;
@@ -341,7 +341,7 @@ void Reset()
     float *ptr_a_last = &a_last[0];
     float *ptr_v_last = &v_last[0];
     float *ptr_pos_last = &pos_last[0];
-    for(size_t vl; z>0; z -= vl, ptr_a_last += vl, ptr_v_last += vl, ptr_pos_last += vl,)
+    for(size_t vl; z>0; z -= vl, ptr_a_last += vl, ptr_v_last += vl, ptr_pos_last += vl)
 	{
 		vl = vsetvl_e32m1(z);
 
@@ -349,9 +349,9 @@ void Reset()
         vfloat32m1_t vec_v_last = vfmv_v_f_f32m1(0, vl);
         vfloat32m1_t vec_pos_last = vfmv_v_f_f32m1(0, vl);
 
-        vse32_v_f32m1(*ptr_a_last, vec_a_last, vl);
-        vse32_v_f32m1(*ptr_v_last, vec_v_last, vl);
-        vse32_v_f32m1(*ptr_pos_last, vec_pos_last, vl);
+        vse32_v_f32m1(ptr_a_last, vec_a_last, vl);
+        vse32_v_f32m1(ptr_v_last, vec_v_last, vl);
+        vse32_v_f32m1(ptr_pos_last, vec_pos_last, vl);
 	}
     a_last[2]=g;
     for (int i = 0; i < 9; i++)
@@ -364,7 +364,7 @@ void Reset()
 
             vfloat32m1_t vec_P = vfmv_v_f_f32m1(0, vl);
             
-            vse32_v_f32m1(*ptr_P, vec_P, vl);
+            vse32_v_f32m1(ptr_P, vec_P, vl);
         }
     } 
 }
@@ -383,8 +383,8 @@ void MatrixMul33_3(data_type a[3][3], data_type b[3], data_type res[3])//a[x][z]
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }
@@ -412,8 +412,8 @@ void MatrixMul33_33(data_type a[3][3], data_type b[3][3], data_type res[3][3])//
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }
@@ -442,8 +442,8 @@ void MatrixMul55_55(data_type a[5][5], data_type b[5][5], data_type res[5][5])//
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }
@@ -472,8 +472,8 @@ void MatrixMul99_99(data_type a[9][9], data_type b[9][9], data_type res[9][9])//
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }
@@ -502,8 +502,8 @@ void MatrixMul99_95(data_type a[9][9], data_type b[9][5], data_type res[9][5])//
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }
@@ -532,8 +532,8 @@ void MatrixMul95_55(data_type a[9][5], data_type b[5][5], data_type res[9][5])//
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }
@@ -562,8 +562,8 @@ void MatrixMul95_59(data_type a[9][5], data_type b[5][9], data_type res[9][9])//
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }
@@ -592,8 +592,8 @@ void MatrixMul59_95(data_type a[5][9], data_type b[9][5], data_type res[5][5])//
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }
@@ -620,8 +620,8 @@ void MatrixMul95_5(data_type a[9][5], data_type b[5], data_type res[9])//a[x][z]
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }
@@ -650,7 +650,7 @@ void MatrixAdd33(data_type A[3][3], data_type B[3][3], data_type C[3][3])///A[x]
             vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
             vec_c = vfadd_vv_f32m1(vec_a, vec_b, vl);
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
         }
     }   
 }
@@ -672,7 +672,7 @@ void MatrixAdd55(data_type A[5][5], data_type B[5][5], data_type C[5][5])///A[x]
             vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
             vec_c = vfadd_vv_f32m1(vec_a, vec_b, vl);
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
         }
     }   
 }
@@ -694,7 +694,7 @@ void MatrixAdd99(data_type A[9][9], data_type B[9][9], data_type C[9][9])///A[x]
             vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
             vec_c = vfadd_vv_f32m1(vec_a, vec_b, vl);
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
         }
     }   
 }
@@ -716,7 +716,7 @@ void MatrixSub33(data_type A[3][3], data_type B[3][3], data_type C[3][3])///A[x]
             vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
             vec_c = vfsub_vv_f32m1(vec_a, vec_b, vl);
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
         }
     }   
 }
@@ -738,7 +738,7 @@ void MatrixSub55(data_type A[5][5], data_type B[5][5], data_type C[5][5])///A[x]
             vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
             vec_c = vfsub_vv_f32m1(vec_a, vec_b, vl);
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
         }
     }   
 }
@@ -760,7 +760,7 @@ void MatrixSub99(data_type A[9][9], data_type B[9][9], data_type C[9][9])///A[x]
             vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
             vec_c = vfsub_vv_f32m1(vec_a, vec_b, vl);
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
         }
     }   
 }
@@ -778,7 +778,7 @@ void MatrixLiner3(data_type A[3][3], data_type k, data_type res[3][3])//A[x][y]
             vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
 
             vfloat32m1_t vec_res = vfmul_vf_f32m1(vec_a, k, vl);
-            vse32_v_f32m1(*ptr_res, vec_res, vl);
+            vse32_v_f32m1(ptr_res, vec_res, vl);
         }
     }   
 }
@@ -788,15 +788,15 @@ void MatrixTra99(data_type a[9][9],data_type b[9][9])///a[x][y], b[y][x]
 	for(int i=0; i<9; i++)
     {
         int n = 9;
-        float *ptr_a = &A[i][0];
-        float *ptr_b = &B[0][i];
+        float *ptr_a = &a[i][0];
+        float *ptr_b = &b[0][i];
 		for(size_t vl; n > 0; n -= vl, ptr_a += vl, ptr_b += vl)
         {
             vl = vsetvl_e32m1(n);
             vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
 
             vfloat32m1_t vec_b = vmv_v_v_f32m1(vec_a, vl);
-            vse32_v_f32m1(*ptr_b, vec_b, vl);
+            vse32_v_f32m1(ptr_b, vec_b, vl);
         }
     }
 }
@@ -806,15 +806,15 @@ void MatrixTra59(data_type a[5][9],data_type b[9][5])///a[x][y], b[y][x]
 	for(int i=0; i<5; i++)
     {
         int n = 9;
-        float *ptr_a = &A[i][0];
-        float *ptr_b = &B[0][i];
+        float *ptr_a = &a[i][0];
+        float *ptr_b = &b[0][i];
 		for(size_t vl; n > 0; n -= vl, ptr_a += vl, ptr_b += vl)
         {
             vl = vsetvl_e32m1(n);
             vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
 
             vfloat32m1_t vec_b = vmv_v_v_f32m1(vec_a, vl);
-            vse32_v_f32m1(*ptr_b, vec_b, vl);
+            vse32_v_f32m1(ptr_b, vec_b, vl);
         }
     }
 }
@@ -822,15 +822,15 @@ void MatrixTra59(data_type a[5][9],data_type b[9][5])///a[x][y], b[y][x]
 void MatrixEqu3(data_type a[3], data_type b[3])//A[x][y], B[x][y]
 {
         int n = 3;
-        float *ptr_a = &a[i][0];
-        float *ptr_b = &b[i][0];
+        float *ptr_a = &a[0];
+        float *ptr_b = &b[0];
         for (size_t vl; n > 0; n -= vl, ptr_a += vl, ptr_b += vl)
         {
             vl = vsetvl_e32m1(n);
             vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
 
             vfloat32m1_t vec_b = vmv_v_v_f32m1(vec_a, vl);
-            vse32_v_f32m1(*ptr_b, vec_b, vl);
+            vse32_v_f32m1(ptr_b, vec_b, vl);
         }  
 }
 
@@ -847,7 +847,7 @@ void MatrixEqu33(data_type a[3][3], data_type b[3][3])//A[x][y], B[x][y]
             vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
 
             vfloat32m1_t vec_b = vmv_v_v_f32m1(vec_a, vl);
-            vse32_v_f32m1(*ptr_b, vec_b, vl);
+            vse32_v_f32m1(ptr_b, vec_b, vl);
         }
     }   
 }
@@ -865,7 +865,7 @@ void MatrixEqu99(data_type a[9][9], data_type b[9][9])//A[x][y], B[x][y]
             vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
 
             vfloat32m1_t vec_b = vmv_v_v_f32m1(vec_a, vl);
-            vse32_v_f32m1(*ptr_b, vec_b, vl);
+            vse32_v_f32m1(ptr_b, vec_b, vl);
         }
     }   
 }

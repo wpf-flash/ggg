@@ -31,7 +31,7 @@ void MatrixSub33(data_type A[3][3], data_type B[3][3], data_type C[3][3])///A[x]
             vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
             vec_c = vfsub_vv_f32m1(vec_a, vec_b, vl);
-            vse32_v_f32m1(*ptr_c, vec_c, vl);
+            vse32_v_f32m1(ptr_c, vec_c, vl);
         }
     }   
 }

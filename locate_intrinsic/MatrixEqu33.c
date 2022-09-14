@@ -24,7 +24,7 @@ void MatrixEqu33(data_type a[3][3], data_type b[3][3])//A[x][y], B[x][y]
             vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
 
             vfloat32m1_t vec_b = vmv_v_v_f32m1(vec_a, vl);
-            vse32_v_f32m1(*ptr_b, vec_b, vl);
+            vse32_v_f32m1(ptr_b, vec_b, vl);
         }
     }   
 }

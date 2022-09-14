@@ -34,8 +34,8 @@ void MatrixMul33_33(data_type a[3][3], data_type b[3][3], data_type res[3][3])//
             {
                 vl = vsetvl_e32m1(n);
 
-                vfloat32m1_t vec_a = vle32_v_f32m1(*ptr_a, vl);
-                vfloat32m1_t vec_b = vle32_v_f32m1(*ptr_b, vl);
+                vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
+                vfloat32m1_t vec_b = vle32_v_f32m1(ptr_b, vl);
 
                 vec_s = vfmacc_vv_f32m1(vec_s, vec_a, vec_b, vl);
             }

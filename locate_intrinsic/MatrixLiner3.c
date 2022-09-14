@@ -21,7 +21,7 @@ void MatrixLiner3(data_type A[3][3], data_type k, data_type res[3][3])//A[x][y]
             vfloat32m1_t vec_a = vle32_v_f32m1(ptr_a, vl);
 
             vfloat32m1_t vec_res = vfmul_vf_f32m1(vec_a, k, vl);
-            vse32_v_f32m1(*ptr_res, vec_res, vl);
+            vse32_v_f32m1(ptr_res, vec_res, vl);
         }
     }   
 }

@@ -5,7 +5,7 @@
 
 
 ///////////////////////////////////////Sub Function//////////////////////////////////////////////
-void data_shift(struct imu_data imu_in);
+//void data_shift(struct imu_data imu_in);
 void MatrixMul33_33(data_type a[3][3],data_type b[3][3],data_type res[3][3]);
 void MatrixMul55_55(data_type a[5][5],data_type b[5][5],data_type res[5][5]);
 void MatrixMul99_99(data_type a[9][9],data_type b[9][9],data_type res[9][9]);
@@ -197,7 +197,7 @@ void Locate(struct imu_data imu_in,struct imu_data* imu_out,struct gyr_bias Gyr_
 				pos[1]=pos_last[1]+(v[1]+v_last[1])*half_ts;
 				pos[2]=pos_last[2]+(v[2]+v_last[2])*half_ts;
 //////////////////////////////////////////////////////////////////
-				//×´Ì¬Îó²îÔ¤²â
+				//×´Ì¬ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½
 				F[6][1]=a[2]*ts;
 				F[6][2]=-a[1]*ts;
 				F[7][0]=-a[2]*ts;
@@ -211,7 +211,7 @@ void Locate(struct imu_data imu_in,struct imu_data* imu_out,struct gyr_bias Gyr_
 				MatrixAdd99(tmp99_2,Q,P);
 
 				/////////////////////////////////////////////////////////////////////////////////////////////////
-				//×´Ì¬¸üÐÂ
+				//×´Ì¬ï¿½ï¿½ï¿½ï¿½
 				zupt:{
 				value=sqrtf(gyr[0]*gyr[0]+gyr[1]*gyr[1]+gyr[2]*gyr[2]);
 				if(zupt_valid==1)

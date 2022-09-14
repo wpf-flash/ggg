@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "cmath": "c",
+        "random": "c",
+        "*.tcc": "c",
+        "unordered_map": "c",
+        "fstream": "c",
+        "istream": "c",
+        "ostream": "c",
+        "streambuf": "c",
+        "functional": "c",
+        "riscv_vector.h": "c"
+    }
+}

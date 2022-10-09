@@ -5,8 +5,8 @@
 #include <riscv_vector.h>
 
 ///////////////////////////////////////Sub Function//////////////////////////////////////////////
+/*
 void MatrixMul33_3(data_type a[3][3], data_type b[3], data_type res[3]);//a[x][z], b[z][y]
-
 void MatrixMul33_33(data_type a[3][3],data_type b[3][3],data_type res[3][3]);
 void MatrixMul55_55(data_type a[5][5],data_type b[5][5],data_type res[5][5]);
 void MatrixMul99_99(data_type a[9][9],data_type b[9][9],data_type res[9][9]);
@@ -15,6 +15,15 @@ void MatrixMul95_55(data_type a[9][5],data_type b[5][5],data_type res[9][5]);
 void MatrixMul95_59(data_type a[9][5],data_type b[5][9],data_type res[9][9]);
 void MatrixMul59_95(data_type a[5][9],data_type b[9][5],data_type res[5][5]);
 void MatrixMul95_5(data_type a[9][5],data_type b[5],data_type res[9]);
+*/
+void MatrixMul_sgemm_vec(size_t size_m, size_t size_n, size_t size_k,
+                        const float *a, // m * k matrix
+                        size_t column_a, //k
+                        const float *b, // k * n matrix
+                        size_t column_b, //n
+                        float *c, // m * n matrix
+                        size_t column_c); //n
+
 
 void MatrixInv3(data_type A[3][3],data_type B[3][3]);
 void SubMatrix4(char M,char N,data_type A[4][4],data_type B[3][3]);
@@ -31,9 +40,10 @@ void MatrixSub55(data_type A[5][5],data_type B[5][5],data_type c[5][5]);
 void MatrixAdd99(data_type A[9][9],data_type B[9][9],data_type c[9][9]);
 void MatrixSub99(data_type A[9][9],data_type B[9][9],data_type c[9][9]);
 void MatrixLiner3(data_type A[3][3],data_type k,data_type res[3][3]);
+
+///////////////////error!!!
 void MatrixTra99(data_type a[9][9],data_type b[9][9]);
 void MatrixTra59(data_type a[5][9],data_type b[9][5]);
-
 void MatrixEqu3(data_type a[3], data_type b[3]);//A[x][y], B[x][y]
 void MatrixEqu33(data_type a[3][3],data_type b[3][3]);
 void MatrixEqu99(data_type a[9][9],data_type b[9][9]);
@@ -369,6 +379,7 @@ void Reset()
     } 
 }
 
+/*
 void MatrixMul33_3(data_type a[3][3], data_type b[3], data_type res[3])//a[x][z], b[z][y]
 {
     size_t vlmax = vsetvlmax_e32m1();
@@ -632,6 +643,43 @@ void MatrixMul95_5(data_type a[9][5], data_type b[5], data_type res[9])//a[x][z]
             res[i] = sum;
     }
 }
+*/
+
+void MatrixMul_sgemm_vec(size_t size_m, size_t size_n, size_t size_k,
+                        const float *a, // m * k matrix
+                        size_t column_a, //k
+                        const float *b, // k * n matrix
+                        size_t column_b, //n
+                        float *c, // m * n matrix
+                        size_t column_c) //n
+{
+  size_t vl;
+  for (size_t m = 0; m < size_m; ++m) 
+  {
+    const float *b_n_ptr = b;
+    float *c_n_ptr = c;
+    for (size_t c_n_count = size_n; c_n_count>0; c_n_count -= vl) 
+    {
+      vl = vsetvl_e32m1(c_n_count);
+      const float *a_k_ptr = a;
+      const float *b_k_ptr = b_n_ptr;
+      vfloat32m1_t acc = vle32_v_f32m1(c_n_ptr, vl);
+      for (size_t k = 0; k < size_k; ++k) //a[0-lda]
+      {
+        vfloat32m1_t b_n_data = vle32_v_f32m1(b_k_ptr, vl);
+        acc = vfmacc_vf_f32m1(acc, *a_k_ptr, b_n_data, vl);//a[0] * b[0-ldb]//vfloat32m1_t vfmacc_vf_f32m1 (vfloat32m1_t vd, float32_t rs1, vfloat32m1_t vs2, size_t vl);
+        b_k_ptr += column_b;
+        a_k_ptr++;
+      }
+      vse32_v_f32m1(c_n_ptr, acc, vl);
+      c_n_ptr += vl;
+      b_n_ptr += vl;
+    }
+    a += column_a;
+    c += column_c;
+  }
+}
+
 
 void MatrixAdd33(data_type A[3][3], data_type B[3][3], data_type C[3][3])///A[x][y],B[x][y]
 {
